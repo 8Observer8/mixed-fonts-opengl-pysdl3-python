@@ -58,7 +58,13 @@ class Text:
             self.font.setMvpMatrix(mvpMatrix)
 
             glDrawArrays(GL_TRIANGLE_STRIP, self.font.charIndices[self.text[i]], 4)
-            self.x = self.x + (self.cd.xAdvance * self.size) * 0.85
+
+            codepoint = ord(self.text[i])
+            if 0x4E00 <= codepoint <= 0x9FFF:
+                advance = self.cd.xAdvance * self.size
+            else:
+                advance = self.cd.xAdvance * self.size * 0.85
+            self.x += advance
 
     def text(self):
         return self.text
